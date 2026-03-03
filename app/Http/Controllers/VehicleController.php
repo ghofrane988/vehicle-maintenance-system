@@ -14,7 +14,7 @@ class VehicleController extends Controller
      */
     public function index()
     {
-        //
+        return response()->json(Vehicle::all(), 200);
     }
 
     /**
@@ -35,7 +35,17 @@ class VehicleController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'marque' => 'required|string|max:255',
+            'modele' => 'required|string|max:255',
+            'matricule' => 'required|string|max:255|unique:vehicles,matricule',
+            'annee' => 'nullable|integer',
+            'statut' => 'nullable|string'
+        ]);
+
+        $vehicle = Vehicle::create($validated);
+
+        return response()->json($vehicle, 201);
     }
 
     /**
@@ -46,7 +56,7 @@ class VehicleController extends Controller
      */
     public function show(Vehicle $vehicle)
     {
-        //
+        return response()->json($vehicle, 200);
     }
 
     /**
@@ -69,7 +79,17 @@ class VehicleController extends Controller
      */
     public function update(Request $request, Vehicle $vehicle)
     {
-        //
+        $validated = $request->validate([
+            'marque' => 'sometimes|required|string|max:255',
+            'modele' => 'sometimes|required|string|max:255',
+            'matricule' => 'sometimes|required|string|max:255|unique:vehicles,matricule,' . $vehicle->id,
+            'annee' => 'nullable|integer',
+            'statut' => 'nullable|string'
+        ]);
+
+        $vehicle->update($validated);
+
+        return response()->json($vehicle, 200);
     }
 
     /**
@@ -80,6 +100,8 @@ class VehicleController extends Controller
      */
     public function destroy(Vehicle $vehicle)
     {
-        //
+        $vehicle->delete();
+
+        return response()->json(null, 204);
     }
 }
