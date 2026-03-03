@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Employee;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class EmployeeController extends Controller
 {
@@ -14,7 +15,8 @@ class EmployeeController extends Controller
      */
     public function index()
     {
-        //
+         $employees = Employee::all();
+         return response()->json($employees);
     }
 
     /**
@@ -35,7 +37,23 @@ class EmployeeController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'nom' => 'required|string|max:255',
+            'email' => 'required|email|unique:employees',
+            'password' => 'required|string|min:6',
+            'role' => 'required|string',
+            'tel' => 'required|string',
+        ]);
+
+        $employee = Employee::create([
+            'nom' => $request->nom,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'role' => $request->role,
+            'tel' => $request->tel,
+        ]);
+
+        return response()->json($employee, 201);
     }
 
     /**
@@ -46,7 +64,7 @@ class EmployeeController extends Controller
      */
     public function show(Employee $employee)
     {
-        //
+        return response()->json($employee, 200);
     }
 
     /**
@@ -57,7 +75,7 @@ class EmployeeController extends Controller
      */
     public function edit(Employee $employee)
     {
-        //
+        
     }
 
     /**
@@ -69,7 +87,22 @@ class EmployeeController extends Controller
      */
     public function update(Request $request, Employee $employee)
     {
-        //
+        $validated = $request->validate([
+            'nom' => 'sometimes|required|string|max:255',
+            'email' => 'sometimes|required|email|unique:employees,email,' . $employee->id,
+            'password' => 'sometimes|required|string|min:6',
+            'role' => 'sometimes|required|string',
+            'tel' => 'sometimes|required|string',
+        ]);
+
+        // If password included, hash it before update
+        if (array_key_exists('password', $validated)) {
+            $validated['password'] = Hash::make($validated['password']);
+        }
+
+        $employee->update($validated);
+
+        return response()->json($employee, 200);
     }
 
     /**
@@ -80,6 +113,8 @@ class EmployeeController extends Controller
      */
     public function destroy(Employee $employee)
     {
-        //
+        $employee->delete();
+
+        return response()->json(null, 204);
     }
 }
