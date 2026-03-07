@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\VehicleController;
 use App\Http\Controllers\EmployeeController;
+use App\Http\Controllers\ReservationController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -24,3 +25,5 @@ Route::apiResource('vehicles', VehicleController::class);
 
 // Employee API resource routes
 Route::apiResource('employees', EmployeeController::class);
+// Reservation API resource routes
+Route::apiResource('reservations', ReservationController::class);
