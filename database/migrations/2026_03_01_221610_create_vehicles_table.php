@@ -15,6 +15,12 @@ class CreateVehiclesTable extends Migration
     {
         Schema::create('vehicles', function (Blueprint $table) {
             $table->id();
+            $table->string('marque');
+            $table->string('modele');
+            $table->string('matricule')->unique();
+            $table->year('annee');
+            $table->enum('statut', ['Disponible', 'En maintenance', 'Affecté'])
+              ->default('Disponible');
             $table->timestamps();
         });
     }
