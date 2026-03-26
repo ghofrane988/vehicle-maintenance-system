@@ -21,7 +21,8 @@ class CreateReservationsTable extends Migration
             $table->dateTime('date_fin');
             $table->integer('km_debut');
             $table->integer('km_fin')->nullable();
-            $table->string('statut', 50);
+            $table->string('mission');
+            $table->enum('status', ['pending', 'approved', 'rejected'])->default('pending');
             $table->timestamps();
         });
     }
