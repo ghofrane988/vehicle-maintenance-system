@@ -27,3 +27,7 @@ Route::apiResource('vehicles', VehicleController::class);
 Route::apiResource('employees', EmployeeController::class);
 // Reservation API resource routes
 Route::apiResource('reservations', ReservationController::class);
+// Maintenance API resource routes
+Route::apiResource('maintenances', MaintenanceController::class);
+// GPS Location API resource routes
+Route::apiResource('gps-locations', GpsLocationController::class);

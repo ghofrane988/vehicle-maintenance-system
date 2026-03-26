@@ -13,6 +13,18 @@ class Vehicle extends Model
         'modele',
         'matricule',
         'annee',
-        'statut'
+        'statut',
+        'latitude',
+        'longitude'
+    ];
+
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array<string, string>
+     */
+    protected $casts = [
+        'latitude' => 'decimal:7',
+        'longitude' => 'decimal:7',
     ];
 }

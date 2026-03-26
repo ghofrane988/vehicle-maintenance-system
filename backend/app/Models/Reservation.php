@@ -13,9 +13,17 @@ class Reservation extends Model
         'employee_id',
         'date_debut',
         'date_fin',
-        'km_debut',
-        'km_fin',
-        'statut'
+        'mission',
+        'status'
+    ];
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array<string, string>
+     */
+    protected $casts = [
+        'date_debut' => 'datetime',
+        'date_fin' => 'datetime',
     ];
     public function vehicle()
     {
